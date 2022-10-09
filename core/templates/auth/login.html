@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% from 'helpers/_form.html' import row %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Login</h2>
+        </div>
+
+        <form method="post" class="needs-validation">
+            <div class="align-items-stretch mb-5">
+                {{ row(form.email) }}
+                {{ row(form.password) }}
+            </div>
+
+            <div class="text-center">
+                {{ form.button(class='btn btn-sm btn-success') }}
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

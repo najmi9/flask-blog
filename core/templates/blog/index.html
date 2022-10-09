@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Blog
+{% endblock %}
+
+{% block content %}
+    <header class="masthead">
+        <div class="masthead-subheading">Posts</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('blog_admin.new') }}">New Post</a>
+    </header>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                Posts List
+            </div>
+        </div>
+        <div class="card-body">
+            {% for blog in blogs %}
+                {{ blog.name }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

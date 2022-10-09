@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% from 'helpers/_form.html' import row %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                Create New Article
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="post" class="form">
+                {{ row(form.name) }}
+                <div class="form-group mt-3">
+                    {{ form.content(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.button(class='btn btn-sm btn-success', value='Edit Post' if edit else 'New Post') }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% from 'helpers/_form.html' import row %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Register</h2>
+        </div>
+
+        <form method="post" class="needs-validation">
+            <div class="align-items-stretch mb-5">
+                {{ row(form.name) }}
+                {{ row(form.email) }}
+                {{ row(form.phone) }}
+                {{ row(form.password) }}
+                <div class="form-check mt-2">
+                    {{ form.agree(class='form-check-input') }}
+                    <label class="form-check-label text-danger" for="agree">
+                        Agree on terms
+                    </label>
+                    {% for error in form.agree.errors %}
+                        <div class="text-danger text-small">
+                            {{ error|e }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="text-center">
+                {{ form.button(class='btn btn-sm btn-success') }}
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
