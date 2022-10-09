@@ -1,6 +1,7 @@
 from arrow import now
 from flask import Blueprint, flash, render_template, request, url_for, redirect
-from flask_login import current_user, login_required
+from flask_login import current_user
+from core.decorators.is_granted import is_granted
 
 from core.forms.BlogPostForm import BlogPostForm
 from core.models.BlogPost import BlogPost
@@ -9,7 +10,7 @@ from core import db
 admin_blog = Blueprint('blog_admin', __name__)
 
 @admin_blog.route('/new', methods=['POST', 'GET'])
-@login_required
+@is_granted('ROLE_ADMIN')
 def new():
     form = BlogPostForm(request.form)
     if 'POST' == request.method and form.validate():
@@ -29,9 +30,9 @@ def new():
 
 
 @admin_blog.route('/<int:id>/edit', methods=['POST', 'GET'])
-@login_required
+@is_granted('ROLE_ADMIN')
 def edit(id: int):
-    blog = BlogPost.query.one_or_404(id)
+    blog = BlogPost.query.get(id)
 
     if None == blog:
         flash(f'Blog with ID {id} not found', 'warning')
@@ -52,7 +53,7 @@ def edit(id: int):
 
 
 @admin_blog.route('/<int:id>/delete')
-@login_required
+@is_granted('ROLE_ADMIN')
 def delete(id):
     blog = BlogPost.query.get(id)
 

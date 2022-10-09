@@ -9,15 +9,28 @@
         <div class="masthead-subheading">Posts</div>
         <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('blog_admin.new') }}">New Post</a>
     </header>
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">
-                Posts List
-            </div>
-        </div>
-        <div class="card-body">
+    <div class="card mt-4">
+        <div class="card-body row">
             {% for blog in blogs %}
-                {{ blog.name }}
+                <div class="col-lg-4">
+                    <div>
+                        <h3> {{ blog.name }} </h3>
+                        {% if current_user.is_admin() %}
+                            <a href="{{ url_for('blog_admin.edit', id=blog.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{{ url_for('blog_admin.delete', id=blog.id) }}" class="btn btn-sm btn-danger"
+                            onclick="return window.confirm('Are you sure');">Delete</a>
+                        {% endif %}
+
+                    </div>
+                    <hr/>
+                    <div>
+                        {{ blog.content|safe }}
+                    </div>
+                    <hr/>
+                    <div>
+                        <small>Updated At: {{ blog.updatedAt }}</small>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>

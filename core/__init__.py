@@ -22,14 +22,15 @@ def create_application():
     from .auth import auth
     from .blog import blog
     from .admin.blog import admin_blog
+    from .commands.create_admin import create_admin
 
-    from .models import User
-    from .models import BlogPost
+    from .models import User, Role, BlogPost
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(blog, url_prefix='/blog')
     app.register_blueprint(admin_blog, url_prefix='/admin/blog')
+    app.register_blueprint(create_admin, cli_group='admin')
 
     migrate = Migrate()
     migrate.init_app(app, db)
