@@ -1,6 +1,5 @@
 
-from django.shortcuts import redirect
-from flask import Blueprint, flash, render_template, url_for
+from flask import Blueprint, flash, render_template, url_for, redirect
 
 from core.models.BlogPost import BlogPost
 

@@ -1,4 +1,4 @@
-from arrow import now
+from datetime import datetime
 from flask import Blueprint, flash, render_template, request, url_for, redirect
 from flask_login import current_user
 from core.decorators.is_granted import is_granted
@@ -40,7 +40,7 @@ def edit(id: int):
 
     form = BlogPostForm(request.form, blog)
     if 'POST' == request.method and form.validate():
-        blog.updatedAt = now().datetime
+        blog.updatedAt = datetime.now()
         blog.name = form.name.data
         blog.content = form.content.data
 

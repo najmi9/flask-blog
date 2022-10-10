@@ -1,1 +1,39 @@
 version: '3.8'
+
+networks:
+    dev:
+
+services:
+    flask:
+        build:
+            context: .
+            dockerfile: .docker/flask/Dockerfile
+        ports:
+            - 8000:8000
+        container_name: flask
+        depends_on:
+            - db
+        environment:
+            - FLASK_DEBUG=1
+            - FLASK_APP=app.py
+        volumes:
+            - .:/usr/src/app
+        networks:
+            - dev
+
+    db:
+        image: 'mariadb:latest'
+        container_name: db
+        environment:
+            MYSQL_PASSWORD: 'root'
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_DATABASE: flask_blog
+        volumes:
+            - db_data:/var/lib/mysql
+        ports:
+            - '3306:3306'
+        networks:
+            - dev
+
+volumes:
+  db_data:

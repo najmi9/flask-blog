@@ -1,6 +1,5 @@
 import click
 from flask import Blueprint
-from matplotlib import use
 from werkzeug.security import generate_password_hash
 
 from core.models.User import User

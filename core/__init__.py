@@ -11,10 +11,7 @@ DB_NAME='project.db'
 def create_application():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config.from_prefixed_env()
 
     db.init_app(app)
 
