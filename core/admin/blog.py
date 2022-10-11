@@ -1,13 +1,12 @@
 from datetime import datetime
 from flask import Blueprint, flash, render_template, request, url_for, redirect
 from flask_login import current_user
-from werkzeug.utils import secure_filename
 
 from core.decorators.is_granted import is_granted
 from core.forms.BlogPostForm import BlogPostForm
 from core.models.BlogPost import BlogPost
 from core import db
-from core.services.file_upload import upload_for_blog
+from core.services.file_upload import delete_for_blog, upload_for_blog
 
 admin_blog = Blueprint('blog_admin', __name__)
 
@@ -23,9 +22,13 @@ def list():
 @is_granted('ROLE_ADMIN')
 def new():
     form = BlogPostForm(request.form)
-    if 'POST' == request.method and form.validate():
-        filename = upload_for_blog(request.files['image'])
 
+    if form.validate_on_submit():
+
+        if not request.files.get('image'):
+            raise FileNotFoundError('image is required')
+
+        filename = upload_for_blog(request.files.get('image'))
         post = BlogPost(
             name = form.name.data,
             content=form.content.data
@@ -45,17 +48,18 @@ def new():
 @admin_blog.route('/<int:id>/edit', methods=['POST', 'GET'])
 @is_granted('ROLE_ADMIN')
 def edit(id: int):
-    blog = BlogPost.query.get(id)
+    blog: BlogPost = BlogPost.query.get(id)
 
     if None == blog:
         flash(f'Blog with ID {id} not found', 'warning')
         return redirect(url_for('blog.index'))
 
-    form = BlogPostForm(request.form, blog)
-    if 'POST' == request.method and form.validate():
-        f = request.files['image']
+    form = BlogPostForm(request.form, obj=blog)
+    if 'POST' == request.method and form.validate_on_submit():
+        f = request.files.get('image')
 
         if f:
+            delete_for_blog(blog.image)
             filename = upload_for_blog(f)
             blog.image = filename
 
@@ -75,7 +79,7 @@ def edit(id: int):
 @is_granted('ROLE_ADMIN')
 def delete(id):
     blog = db.get_or_404(BlogPost, id)
-
+    delete_for_blog(blog.image)
     db.session.delete(blog)
     db.session.commit()
 

@@ -11,7 +11,7 @@ def index():
 
     return render_template('blog/index.html', blogs=blogs)
 
-@blog.route('/<int:id>/details')
+@blog.route('/<int:id>/show')
 def show(id: int):
     blog = BlogPost.query.get(id)
     if None == blog:

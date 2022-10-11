@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    blog.name
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    {{ blog.name }}
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h3> {{ blog.name }} </h3>
+                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                        <a href="{{ url_for('blog_admin.edit', id=blog.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ url_for('blog_admin.delete', id=blog.id) }}" class="btn btn-sm btn-danger"
+                        onclick="return window.confirm('Are you sure');">Delete</a>
+                    {% endif %}
+
+                </div>
+                {% if blog.image %}
+                    <div class="card-img">
+                        <img src="{{ blog.image }}"
+                        width="100%"  height="100%"/>
+                    </div>
+                {% endif %}
+                <hr/>
+                <div>
+                    {{ blog.content|safe }}
+                </div>
+                <hr/>
+                <div>
+                    <small>Updated At: {{ blog.updatedAt }}</small>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,6 +1,7 @@
-from wtforms import Form, StringField, SubmitField, validators, TextAreaField, FileField
+from wtforms import StringField, SubmitField, validators, TextAreaField, FileField
+from flask_wtf import FlaskForm
 
-class BlogPostForm(Form):
+class BlogPostForm(FlaskForm):
     name = StringField('Name', [validators.DataRequired('Name required')])
 
     content = TextAreaField(
@@ -8,7 +9,8 @@ class BlogPostForm(Form):
         validators=[validators.DataRequired('Content Required')],
     )
 
-    image = FileField('Blog post image')
-
+    image = FileField(
+        'Blog post image',
+    )
 
     button = SubmitField('Create New Post')

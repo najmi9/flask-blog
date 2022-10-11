@@ -2,14 +2,25 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_ckeditor import CKEditor
 
 db = SQLAlchemy()
+
+toolbar = DebugToolbarExtension()
+
+ckeditor = CKEditor()
 
 def create_application():
     app = Flask(__name__)
 
     app.config.from_prefixed_env()
+
     db.init_app(app)
+
+    toolbar.init_app(app)
+
+    ckeditor.init_app(app)
 
     from .views import views
     from .auth import auth

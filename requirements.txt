@@ -5,5 +5,8 @@ Flask-Migrate
 mysqlclient
 sqlalchemy-utils
 WTForms
+Flask-WTF
 email-validator
 python-dotenv
+flask-debugtoolbar
+flask-ckeditor

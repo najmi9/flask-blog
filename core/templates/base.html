@@ -19,7 +19,7 @@
     <body id="page-top">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top"><img src="{{ url_for('static', filename='img/navbar-logo.svg') }}" alt="..." /></a>
+                <a class="navbar-brand" href="{{ url_for('views.home') }}"><img src="{{ url_for('static', filename='img/navbar-logo.svg') }}" alt="..." /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
@@ -27,9 +27,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('views.home') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('blog_admin.list') }}">Admin/blog</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('blog_admin.new') }}">New Post</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('blog.index') }}">Blog</a></li>
                         {% if current_user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
@@ -41,6 +41,12 @@
                 </div>
             </div>
         </nav>
+
+
+        {% block content %}
+
+        {% endblock %}
+
         <div class="container">
             {% for category, message in get_flashed_messages(with_categories=true) %}
                 <div class="alert alert-{{ category }} alter-dismissable fade show mt-2" role="alert">
@@ -49,15 +55,11 @@
             {% endfor %}
         </div>
 
-
-        {% block content %}
-
-        {% endblock %}
-
         {% include "partials/footer.html" %}
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-        <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
+
+        {% block javascript %}{% endblock %}
     </body>
 </html>

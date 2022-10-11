@@ -1,10 +1,24 @@
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+from flask import current_app
+import os
 
-def upload_for_blog(filename: str, path: str, f):
-    filename = secure_filename(f.filename)
-    f.save(f'../uploads/images/{filename}')
-    pass
+def upload_for_blog(file: FileStorage) -> str:
+    upload_folder = current_app.config.get('UPLOAD_FOLDER')
+    if not upload_folder:
+        raise ValueError(f'{upload_folder} not found')
+
+    filename = secure_filename(file.filename)
+    path = os.path.join(
+        current_app.root_path,
+        upload_folder,
+        filename
+    )
+    file.save(path)
+
+    return f'/{upload_folder}/{filename}'
 
 
-def delete_for_blog():
-    pass
+def delete_for_blog(path: str):
+    url = f'{current_app.root_path}{path}'
+    os.remove(url)

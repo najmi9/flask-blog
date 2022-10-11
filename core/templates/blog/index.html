@@ -5,16 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <header class="masthead">
-        <div class="masthead-subheading">Posts</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('blog_admin.new') }}">New Post</a>
-    </header>
     <div class="card mt-4">
-        <div class="card-body row">
+        <div class="card-header">
+            <div class="card-title">
+                List of our articles:
+            </div>
+        </div>
+        <div class="card-body row g-4">
             {% for blog in blogs %}
-                <div class="col-lg-4">
+                <div class="col-lg-3 h-100">
                     <div>
-                        <h3> {{ blog.name }} </h3>
+                        <h3>
+                            <a href="{{ url_for('blog.show', id=blog.id) }}">
+                                {{ blog.name }}
+                            </a>
+                        </h3>
                         {% if current_user.is_authenticated and current_user.is_admin() %}
                             <a href="{{ url_for('blog_admin.edit', id=blog.id) }}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="{{ url_for('blog_admin.delete', id=blog.id) }}" class="btn btn-sm btn-danger"
@@ -22,10 +27,12 @@
                         {% endif %}
 
                     </div>
-                    <hr/>
-                    <div>
-                        {{ blog.content|safe }}
-                    </div>
+                    {% if blog.image %}
+                        <div class="card-img">
+                            <img src="{{ blog.image }}"
+                            width="100%"  height="100%"/>
+                        </div>
+                    {% endif %}
                     <hr/>
                     <div>
                         <small>Updated At: {{ blog.updatedAt }}</small>
