@@ -1,19 +1,20 @@
+'''Only user with role ROLE_ADMIN can access to this routes'''
+
 from datetime import datetime
 from flask import Blueprint, flash, render_template, request, url_for, redirect
 from flask_login import current_user
 
 from core.decorators.is_granted import is_granted
-from core.forms.BlogPostForm import BlogPostForm
-from core.models.BlogPost import BlogPost
+from core.forms.blog_post_form import BlogPostForm
+from core.models.blog_post import BlogPost
 from core import db
 from core.services.file_upload import delete_for_blog, upload_for_blog
 
 admin_blog = Blueprint('blog_admin', __name__)
 
-
 @admin_blog.route('/', methods=['GET'])
 @is_granted('ROLE_ADMIN')
-def list():
+def index():
     blogs = BlogPost.query.all()
 
     return render_template('admin/blog/index.html', blogs=blogs)
@@ -50,17 +51,17 @@ def new():
 def edit(id: int):
     blog: BlogPost = BlogPost.query.get(id)
 
-    if None == blog:
+    if None is blog:
         flash(f'Blog with ID {id} not found', 'warning')
         return redirect(url_for('blog.index'))
 
     form = BlogPostForm(request.form, obj=blog)
     if 'POST' == request.method and form.validate_on_submit():
-        f = request.files.get('image')
+        post_file = request.files.get('image')
 
-        if f:
+        if post_file:
             delete_for_blog(blog.image)
-            filename = upload_for_blog(f)
+            filename = upload_for_blog(post_file)
             blog.image = filename
 
         blog.updatedAt = datetime.now()

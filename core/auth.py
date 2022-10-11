@@ -4,9 +4,9 @@ from flask import request
 from flask_login import login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from core.forms.LoginForm import LoginForm
-from core.forms.RegistrationForm import RegistrationForm
-from core.models.User import User
+from core.forms.login_form import LoginForm
+from core.forms.registration_form import RegistrationForm
+from core.models.user import User
 from core import db
 
 auth = Blueprint('auth', __name__)
@@ -20,7 +20,7 @@ def login():
         password = form.password.data
         user = User.query.filter_by(email=email).first()
 
-        if None == user or False == check_password_hash(user.password, password):
+        if None is user or False is check_password_hash(user.password, password):
             flash('Bad Credentials', 'danger')
         else:
             login_user(user)
@@ -36,10 +36,10 @@ def login():
 def register():
     form = RegistrationForm(request.form)
     if 'POST' == request.method and form.validate():
-        hashedPassword = generate_password_hash(form.password.data, method='sha256')
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
         user = User(
             email=form.email.data,
-            password=hashedPassword
+            password=hashed_password
         )
         db.session.add(user)
         db.session.commit()

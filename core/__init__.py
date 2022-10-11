@@ -1,3 +1,7 @@
+'''
+    application factory
+'''
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -12,6 +16,7 @@ toolbar = DebugToolbarExtension()
 ckeditor = CKEditor()
 
 def create_application():
+    '''Create the application'''
     app = Flask(__name__)
 
     app.config.from_prefixed_env()
@@ -23,12 +28,12 @@ def create_application():
     ckeditor.init_app(app)
 
     from .views import views
+    from .views import views
     from .auth import auth
     from .blog import blog
     from .admin.blog import admin_blog
     from .commands import create_admin, create_db
-
-    from .models import User, BlogPost
+    from .models import user
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
@@ -45,7 +50,7 @@ def create_application():
     login_manager.login_view = 'auth.login'
 
     @login_manager.user_loader
-    def load_user(id):
-        return User.User.query.get(id)
+    def load_user(user_id):
+        return user.User.query.get(user_id)
 
     return app

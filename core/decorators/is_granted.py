@@ -1,21 +1,23 @@
+'''See if a user has a specific role'''
+
 from functools import wraps
 from flask import abort, request, redirect, url_for
 from flask_login import current_user
 
 def is_granted(role: str):
-    def decorator(f):
-        @wraps(f)
+    '''role argument is for the moment "ROLE_ADMIN"'''
+    def decorator(func):
+        @wraps(func)
         def decorated_function(*args, **kwargs):
             user = current_user
 
-            if user == None:
+            if user is None:
                 return redirect(url_for('auth.login', next=request.url))
 
-            if None == user.roles or role not in user.roles:
+            if None is user.roles or role not in user.roles:
                 abort(403)
 
-            return f(*args, **kwargs)
+            return func(*args, **kwargs)
 
         return decorated_function
     return decorator
-

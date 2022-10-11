@@ -10,3 +10,6 @@ email-validator
 python-dotenv
 flask-debugtoolbar
 flask-ckeditor
+pylint
+pylint-flask
+pylint-flask-sqlalchemy

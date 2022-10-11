@@ -1,8 +1,10 @@
+'''Create an admin with the given email and password'''
+
 import click
 from flask import Blueprint
 from werkzeug.security import generate_password_hash
 
-from core.models.User import User
+from core.models.user import User
 from core import db
 
 ROLE_NAME='ROLE_ADMIN'

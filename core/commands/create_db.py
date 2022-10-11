@@ -1,3 +1,5 @@
+'''Create the configured database'''
+
 import click
 from flask import Blueprint
 from sqlalchemy_utils import database_exists, create_database
@@ -15,8 +17,6 @@ def db_create():
     if not database_exists(engine.url):
         create_database(engine.url)
         db.create_all()
-        click.echo(f'database created successfully', color=True)
+        click.echo('database created successfully', color=True)
     else:
         click.echo('Database already exists')
-
-

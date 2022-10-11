@@ -1,8 +1,11 @@
-from core import db
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, DateTime, func
+'''blog post'''
 
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, DateTime, func
+from core import db
 
 class BlogPost(db.Model):
+    '''This is represent an article in the db'''
+
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
