@@ -8,11 +8,10 @@ def is_granted(role: str):
         def decorated_function(*args, **kwargs):
             user = current_user
 
-            if user is None:
+            if user == None:
                 return redirect(url_for('auth.login', next=request.url))
 
-            roleAdmin = filter(lambda userRole : role == userRole.name, user.roles)
-            if [] == list(roleAdmin):
+            if None == user.roles or role not in user.roles:
                 abort(403)
 
             return f(*args, **kwargs)

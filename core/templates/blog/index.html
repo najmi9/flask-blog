@@ -15,7 +15,7 @@
                 <div class="col-lg-4">
                     <div>
                         <h3> {{ blog.name }} </h3>
-                        {% if current_user.is_admin() %}
+                        {% if current_user.is_authenticated and current_user.is_admin() %}
                             <a href="{{ url_for('blog_admin.edit', id=blog.id) }}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="{{ url_for('blog_admin.delete', id=blog.id) }}" class="btn btn-sm btn-danger"
                             onclick="return window.confirm('Are you sure');">Delete</a>

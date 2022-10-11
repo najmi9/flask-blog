@@ -36,7 +36,7 @@ def login():
 def register():
     form = RegistrationForm(request.form)
     if 'POST' == request.method and form.validate():
-        hashedPassword = generate_password_hash(form.password.data, 'sha256')
+        hashedPassword = generate_password_hash(form.password.data, method='sha256')
         user = User(
             email=form.email.data,
             password=hashedPassword

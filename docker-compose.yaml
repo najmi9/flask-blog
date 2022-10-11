@@ -35,5 +35,16 @@ services:
         networks:
             - dev
 
+    adminer:
+        image: adminer
+        restart: always
+        container_name: adminer
+        depends_on:
+            - db
+        ports:
+            - '5050:8080'
+        networks:
+        - dev
+
 volumes:
   db_data:

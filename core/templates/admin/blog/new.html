@@ -4,16 +4,20 @@
 
 {% block content %}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <div class="card-title">
                 Create New Article
             </div>
+            <div class="card-toolbar">
+                <a href="{{ url_for('blog_admin.list') }}" class="btn btn-secondary btn-sm">Back to the list</a>
+            </div>
         </div>
         <div class="card-body">
-            <form method="post" class="form">
+            <form method="post" class="form" enctype="multipart/form-data">
                 {{ row(form.name) }}
+                {{ row(form.image) }}
                 <div class="form-group mt-3">
-                    {{ form.content(class="form-control") }}
+                    {{ form.content(class="form-control", placeholder="Content of the article here ...") }}
                 </div>
                 <div class="form-group mt-3">
                     {{ form.button(class='btn btn-sm btn-success', value='Edit Post' if edit else 'New Post') }}

@@ -3,6 +3,7 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Migrate
 mysqlclient
+sqlalchemy-utils
 WTForms
 email-validator
 python-dotenv

@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% from 'helpers/_form.html' import row %}
+
+{% block content %}
+    <div class="card">
+        <div class="d-flex justify-content-between card-header">
+            <div class="card-title">
+                Articles List
+            </div>
+            <div class="card-toolbar">
+                <a href="{{ url_for('blog_admin.new') }}" class="btn btn-secondary btn-sm">Create new post</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-stripped table-sm">
+                    <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Updated At</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for blog in blogs %}
+                            <tr>
+                                <td> {{ blog.id }} </td>
+                                <td> {{ blog.name }} </td>
+                                <td>
+                                    {% if blog.image %}
+                                        <img src="{{ url_for('/uplodas', filename='images/' ~ blog.image) }}" />
+                                    {% endif %}
+
+                                </td>
+                                <td> {{ blog.updatedAt }} </td>
+                                <td>
+                                    <a href="{{ url_for('blog_admin.edit', id=blog.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{ url_for('blog_admin.delete', id=blog.id) }}" class="btn btn-sm btn-danger"
+                                    onclick="return window.confirm('Are you sure');">Delete</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">
+                                    No blog post created yet!!
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

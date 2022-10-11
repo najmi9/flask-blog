@@ -9,8 +9,9 @@
 {% block content %}
 <section class="page-section" id="contact">
     <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Register</h2>
+        <div class="d-flex justify-content-between">
+            <b class="section-heading text-uppercase">Register</b>
+            <a class="btn bnt-sm btn-primary" href="{{ url_for('auth.login') }}">Login instead?</a>
         </div>
 
         <form method="post" class="needs-validation">
