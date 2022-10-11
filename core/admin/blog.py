@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from flask import Blueprint, flash, render_template, request, url_for, redirect
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from core.decorators.is_granted import is_granted
 from core.forms.blog_post_form import BlogPostForm
@@ -13,6 +13,7 @@ from core.services.file_upload import delete_for_blog, upload_for_blog
 admin_blog = Blueprint('blog_admin', __name__)
 
 @admin_blog.route('/', methods=['GET'])
+@login_required
 @is_granted('ROLE_ADMIN')
 def index():
     blogs = BlogPost.query.all()
@@ -20,6 +21,7 @@ def index():
     return render_template('admin/blog/index.html', blogs=blogs)
 
 @admin_blog.route('/new', methods=['POST', 'GET'])
+@login_required
 @is_granted('ROLE_ADMIN')
 def new():
     form = BlogPostForm(request.form)
@@ -47,6 +49,7 @@ def new():
 
 
 @admin_blog.route('/<int:id>/edit', methods=['POST', 'GET'])
+@login_required
 @is_granted('ROLE_ADMIN')
 def edit(id: int):
     blog: BlogPost = BlogPost.query.get(id)
