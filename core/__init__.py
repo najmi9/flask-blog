@@ -9,15 +9,21 @@ from flask_migrate import Migrate
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_ckeditor import CKEditor
 
+from flask_smorest import Api
+
 db = SQLAlchemy()
 
 toolbar = DebugToolbarExtension()
 
 ckeditor = CKEditor()
 
+api = Api()
+
 def create_application():
     '''Create the application'''
     app = Flask(__name__)
+
+    app.config['API_SPEC_OPTIONS'] = {'x-internal-id': '2'}
 
     app.config.from_prefixed_env()
 
@@ -26,6 +32,8 @@ def create_application():
     toolbar.init_app(app)
 
     ckeditor.init_app(app)
+
+    api.init_app(app)
 
     from .views import views
     from .views import views
@@ -41,9 +49,9 @@ def create_application():
     app.register_blueprint(create_admin.create_admin, cli_group='admin')
     app.register_blueprint(create_db.create_db)
 
-    from .api.controllers import home
+    from api.controllers import users
 
-    app.register_blueprint(home.api)
+    api.register_blueprint(users.api)
 
     migrate = Migrate()
     migrate.init_app(app, db)
