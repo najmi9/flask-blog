@@ -13,3 +13,5 @@ flask-ckeditor
 pylint
 pylint-flask
 pylint-flask-sqlalchemy
+flask-rest-api
+marshmallow

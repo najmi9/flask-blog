@@ -33,7 +33,6 @@ def create_application():
     from .blog import blog
     from .admin.blog import admin_blog
     from .commands import create_admin, create_db
-    from .models import user
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/auth')
@@ -42,12 +41,18 @@ def create_application():
     app.register_blueprint(create_admin.create_admin, cli_group='admin')
     app.register_blueprint(create_db.create_db)
 
+    from .api.controllers import home
+
+    app.register_blueprint(home.api)
+
     migrate = Migrate()
     migrate.init_app(app, db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
+
+    from .models import user
 
     @login_manager.user_loader
     def load_user(user_id):
