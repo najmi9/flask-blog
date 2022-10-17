@@ -4,6 +4,8 @@ from functools import wraps
 from flask import abort, request, redirect, url_for
 from flask_login import current_user
 
+from core.models.user import User
+
 def is_granted(role: str):
     '''role argument is for the moment "ROLE_ADMIN"'''
     def decorator(func):
@@ -11,7 +13,7 @@ def is_granted(role: str):
         def decorated_function(*args, **kwargs):
             user = current_user
 
-            if user is None:
+            if not isinstance(current_user, User):
                 return redirect(url_for('auth.login', next=request.url))
 
             if None is user.roles or role not in user.roles:
