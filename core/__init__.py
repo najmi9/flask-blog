@@ -8,7 +8,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_ckeditor import CKEditor
-
+from flask_jwt import JWT
 from flask_smorest import Api
 
 db = SQLAlchemy()
@@ -49,9 +49,13 @@ def create_application():
     app.register_blueprint(create_admin.create_admin, cli_group='admin')
     app.register_blueprint(create_db.create_db)
 
-    from api.controllers import users
+    from api.helpers.auth import authenticate, identity
+    JWT(app, authenticate, identity)
+
+    from api.controllers import users, blogs
 
     api.register_blueprint(users.api)
+    api.register_blueprint(blogs.api)
 
     migrate = Migrate()
     migrate.init_app(app, db)

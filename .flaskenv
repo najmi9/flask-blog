@@ -29,3 +29,8 @@ FLASK_OPENAPI_SWAGGER_UI_VERSIO=3
 FLASK_OPENAPI_SWAGGER_UI_URL=https://cdn.jsdelivr.net/npm/swagger-ui-dist/
 
 FLASK_API_TITLE='Flask Rest api demo'
+
+
+FLASK_JWT_AUTH_URL_RULE=/api/auth/login
+
+FLASK_JWT_AUTH_USERNAME_KEY=email
